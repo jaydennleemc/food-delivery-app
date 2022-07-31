@@ -4,7 +4,7 @@ import images from './images';
 const myProfile = {
   name: 'Jayden LEE',
   profile_image: images.profile,
-  address: '8120 General Currie Road, Richmond, BC V6X 1J5',
+  address: '8120 General Currie Road, Richmond',
 };
 
 const categories = [
