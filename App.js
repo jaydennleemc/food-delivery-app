@@ -6,6 +6,7 @@ import {createStore, applyMiddleware} from 'redux';
 import {Provider} from 'react-redux';
 import thunk from 'redux-thunk';
 import rootReducer from './stores/rootReducer';
+import OnBoarding from './screens/OnBoarding/OnBoarding';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,7 +20,8 @@ const App = () => {
           screenOptions={{
             headerShown: false,
           }}
-          initialRouteName={'Home'}>
+          initialRouteName={'OnBoarding'}>
+          <Stack.Screen name={'OnBoarding'} component={OnBoarding} />
           <Stack.Screen name="Home" component={CustomDrawer} />
         </Stack.Navigator>
       </NavigationContainer>

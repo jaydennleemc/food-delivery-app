@@ -53,7 +53,7 @@ const CustomDrawerContent = ({navigation, selectedTab, setSelectedTab}) => {
 
           {/* Profile */}
           <TouchableOpacity
-            style={{flexDirection: 'row', marginTop: SIZES.radius, alignItems: 'center'}}
+            style={{flexDirection: 'row', marginTop: SIZES.radius, alignItems: 'center', marginBottom: SIZES.padding}}
             onPress={() => console.log('profile onpress')}>
             <Image
               source={dummyData.myProfile?.profile_image}
