@@ -6,8 +6,13 @@ import {constants} from '../../constants';
 import {TextButton} from '../../components';
 
 const OnBoarding = ({navigation}) => {
-  const scrollX = new Animated.Value(0);
+  const scrollX = React.useRef(new Animated.Value(0)).current;
   const flatListRef = React.useRef();
+  const [currentIndex, setCurrentIndex] = React.useState(0);
+
+  const onViewChangeRef = React.useRef(({viewableItems, changed}) => {
+    setCurrentIndex(viewableItems[0].index);
+  });
 
   const Dots = () => {
     const dotPosition = Animated.divide(scrollX, SIZES.width);
@@ -65,33 +70,40 @@ const OnBoarding = ({navigation}) => {
         <View style={{flex: 1, justifyContent: 'center'}}>
           <Dots />
         </View>
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            paddingHorizontal: SIZES.padding,
-            marginVertical: SIZES.padding,
-          }}>
-          <TextButton
-            label={'Skip'}
-            buttonContainerStyle={{backgroundColor: null}}
-            labelStyle={{color: COLORS.darkGray2}}
-            onPress={() => navigation.replace('Home')}
-          />
+        {currentIndex < constants.onboarding_screens.length - 1 && (
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              paddingHorizontal: SIZES.padding,
+              marginVertical: SIZES.padding,
+            }}>
+            <TextButton
+              label={'Skip'}
+              buttonContainerStyle={{backgroundColor: null}}
+              labelStyle={{color: COLORS.darkGray2}}
+              onPress={() => navigation.replace('SignIn')}
+            />
 
-          <TextButton
-            label={'Next'}
-            buttonContainerStyle={{height: 60, width: 200, borderRadius: SIZES.radius}}
-            onPress={() => {
-              let index = Math.ceil(Number(scrollX._value) / SIZES.width);
-              if (index < constants.onboarding_screens.length - 1) {
-                flatListRef.current.scrollToIndex({index: index + 1, animated: true});
-              } else {
-                navigation.replace('Home');
-              }
-            }}
-          />
-        </View>
+            <TextButton
+              label={'Next'}
+              buttonContainerStyle={{height: 60, width: 200, borderRadius: SIZES.radius}}
+              onPress={() => {
+                flatListRef.current.scrollToIndex({index: currentIndex + 1, animated: true});
+              }}
+            />
+          </View>
+        )}
+
+        {currentIndex == constants.onboarding_screens.length - 1 && (
+          <View style={{paddingHorizontal: SIZES.padding, marginVertical: SIZES.padding}}>
+            <TextButton
+              label={'Get Started'}
+              buttonContainerStyle={{height: 60, borderRadius: SIZES.radius}}
+              onPress={() => navigation.replace('SignIn')}
+            />
+          </View>
+        )}
       </View>
     );
   }
@@ -106,7 +118,8 @@ const OnBoarding = ({navigation}) => {
         scrollEventThrottle={16}
         snapToAlignment={'center'}
         showsHorizontalScrollIndicator={false}
-        onScroll={Animated.event([{nativeEvent: {contentOffset: {x: scrollX}}}])}
+        onScroll={Animated.event([{nativeEvent: {contentOffset: {x: scrollX}}}], {useNativeDriver: false})}
+        onViewableItemsChanged={onViewChangeRef.current}
         data={constants.onboarding_screens}
         keyExtractor={item => `${item.id}`}
         renderItem={({item, index}) => {
