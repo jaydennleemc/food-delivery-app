@@ -10,7 +10,7 @@ const SignIn = ({navigation}) => {
   const [password, setPassword] = React.useState('');
   const [emailError, setEmailError] = React.useState('');
   const [showPass, setShowPass] = React.useState(false);
-  const [saveMe, setSaveMe] = React.useState(true);
+  const [saveMe, setSaveMe] = React.useState(false);
 
   function isEnableSignIn() {
     return email != '' && password != '' && emailError == '';
@@ -99,6 +99,7 @@ const SignIn = ({navigation}) => {
             borderRadius: SIZES.radius,
             backgroundColor: isEnableSignIn() ? COLORS.primary : COLORS.transparentPrimary,
           }}
+          onPress={() => navigation.navigate('Home')}
         />
 
         <View style={{flexDirection: 'row', marginTop: SIZES.radius, justifyContent: 'center'}}>

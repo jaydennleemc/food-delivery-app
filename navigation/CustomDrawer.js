@@ -161,7 +161,7 @@ const CustomDrawerContent = ({navigation, selectedTab, setSelectedTab}) => {
           />
 
           <View style={{marginTop: SIZES.padding}}>
-            <CustomDrawerItem label={'Logout'} icon={icons.logout} />
+            <CustomDrawerItem label={'Logout'} icon={icons.logout} onPress={() => navigation.replace('SignIn')} />
           </View>
         </View>
       </View>
